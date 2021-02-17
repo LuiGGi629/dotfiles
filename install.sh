@@ -123,28 +123,28 @@ sudo rm -rf /Applications/GarageBand.app
 sudo rm -rf /Applications/Pages.app
 
 # Install Numbers and Keynotes
-mas install 409183694
-mas install 409203825
+# mas install 409183694
+# mas install 409203825
 
 # Install 1Password.
-mas install 1333542190
-open -a "1Password 7"
+# mas install 1333542190
+# open -a "1Password 7"
 # Activate Safari extension.
 # Source: https://github.com/kdeldycke/kevin-deldycke-blog/blob/main/content/posts/macos-commands.md
-pluginkit -e use -i com.agilebits.onepassword7.1PasswordSafariAppExtension
+# pluginkit -e use -i com.agilebits.onepassword7.1PasswordSafariAppExtension
 
 # WiFi Explorer Lite
 mas install 1408727408
 
 # Open apps so I'll not forget to login
-open -a Dropbox
+# open -a Dropbox
 open -a adguard
 
 # Spark - Email App by Readdle
-mas install 1176895641
+# mas install 1176895641
 
 # Microsoft Remote Desktop
-mas install 1295203466
+# mas install 1295203466
 
 # Install QuickLooks plugins
 # Source: https://github.com/sindresorhus/quick-look-plugins
@@ -165,9 +165,9 @@ qlmanage -r
 qlmanage -r cache
 
 # Install and configure Google Cloud Storage bucket mount point.
-brew install gcsfuse
-mkdir -p "${HOME}/gcs"
-GOOGLE_APPLICATION_CREDENTIALS=~/.google-cloud-auth.json gcsfuse --implicit-dirs backup-imac-restic ./gcs
+# brew install gcsfuse
+# mkdir -p "${HOME}/gcs"
+# GOOGLE_APPLICATION_CREDENTIALS=~/.google-cloud-auth.json gcsfuse --implicit-dirs backup-imac-restic ./gcs
 # Mount doesn't work as macOS doesn't let us register a new filesystem plugin.
 # See: https://github.com/GoogleCloudPlatform/gcsfuse/issues/188
 # sudo ln -s /usr/local/sbin/mount_gcsfuse /sbin/
@@ -175,46 +175,46 @@ GOOGLE_APPLICATION_CREDENTIALS=~/.google-cloud-auth.json gcsfuse --implicit-dirs
 
 
 # Configure swiftbar.
-defaults write com.ameba.SwiftBar PluginDirectory "~/.swiftbar"
-defaults write com.ameba.SwiftBar SUHasLaunchedBefore 1
-wget -O "${HOME}/.swiftbar/btc.17m.sh" https://github.com/matryer/bitbar-plugins/raw/master/Cryptocurrency/Bitcoin/bitstamp.net/last.10s.sh
-sed -i "s/Bitstamp: /Ƀ/" "${HOME}/.swiftbar/btc.17m.sh"
-wget -O "${HOME}/.swiftbar/brew-services.7m.rb" https://github.com/matryer/bitbar-plugins/raw/master/Dev/Homebrew/brew-services.10m.rb
-chmod +x ${HOME}/.swiftbar/*.{sh,py,rb}
-open -a SwiftBar
+# defaults write com.ameba.SwiftBar PluginDirectory "~/.swiftbar"
+# defaults write com.ameba.SwiftBar SUHasLaunchedBefore 1
+# wget -O "${HOME}/.swiftbar/btc.17m.sh" https://github.com/matryer/bitbar-plugins/raw/master/Cryptocurrency/Bitcoin/bitstamp.net/last.10s.sh
+# sed -i "s/Bitstamp: /Ƀ/" "${HOME}/.swiftbar/btc.17m.sh"
+# wget -O "${HOME}/.swiftbar/brew-services.7m.rb" https://github.com/matryer/bitbar-plugins/raw/master/Dev/Homebrew/brew-services.10m.rb
+# chmod +x ${HOME}/.swiftbar/*.{sh,py,rb}
+# open -a SwiftBar
 
 # Open Tor Browser at least once in the background to create a default profile.
 # Then close it after a while to not block script execution.
-open --wait-apps -g -a "Tor Browser" & sleep 20s; killall "firefox"
+#open --wait-apps -g -a "Tor Browser" & sleep 20s; killall "firefox"
 # Show TorBrowser bookmark toolbar.
-TB_CONFIG_DIR=$(command find "${HOME}/Library/Application Support/TorBrowser-Data/Browser" -maxdepth 1 -iname "*.default")
-tee -a "$TB_CONFIG_DIR/xulstore.json" <<-EOF
-{"chrome://browser/content/browser.xhtml": {
-    "PersonalToolbar": {"collapsed": "false"}
-}}
-EOF
+#TB_CONFIG_DIR=$(command find "${HOME}/Library/Application Support/TorBrowser-Data/Browser" -maxdepth 1 -iname "*.default")
+#tee -a "$TB_CONFIG_DIR/xulstore.json" <<-EOF
+#{"chrome://browser/content/browser.xhtml": {
+#    "PersonalToolbar": {"collapsed": "false"}
+#}}
+#EOF
 # Set TorBrowser bookmarks in toolbar.
 # Source: https://yro.slashdot.org/story/16/06/08/151245/kickasstorrents-enters-the-dark-web-adds-official-tor-address
-BOOKMARKS="
-https://protonirockerxow.onion,ProtonMail,ehmwyurmkort,eqeiuuEyivna
-http://piratebayztemzmv.onion,PirateBay,nnypemktnpya,dvzeeooowsgx
-"
-TB_BOOKMARK_DB="$TB_CONFIG_DIR/places.sqlite"
+#BOOKMARKS="
+#https://protonirockerxow.onion,ProtonMail,ehmwyurmkort,eqeiuuEyivna
+#http://piratebayztemzmv.onion,PirateBay,nnypemktnpya,dvzeeooowsgx
+#"
+#TB_BOOKMARK_DB="$TB_CONFIG_DIR/places.sqlite"
 # Remove all bookmarks from the toolbar.
-sqlite3 -echo -header -column "$TB_BOOKMARK_DB" "DELETE FROM moz_bookmarks WHERE parent=(SELECT id FROM moz_bookmarks WHERE guid='toolbar_____'); SELECT * FROM moz_bookmarks;"
+#sqlite3 -echo -header -column "$TB_BOOKMARK_DB" "DELETE FROM moz_bookmarks WHERE parent=(SELECT id FROM moz_bookmarks WHERE guid='toolbar_____'); SELECT * FROM moz_bookmarks;"
 # Add bookmarks one by one.
-for BM_INFO (${(f)BOOKMARKS})
-do
-    BM_URL=$(echo $BM_INFO | cut -d',' -f1)
-    BM_TITLE=$(echo $BM_INFO | cut -d',' -f2)
-    BM_GUID1=$(echo $BM_INFO | cut -d',' -f3)
-    BM_GUID2=$(echo $BM_INFO | cut -d',' -f4)
-    sqlite3 -echo -header -column "$TB_BOOKMARK_DB" "INSERT OR REPLACE INTO moz_places(url, hidden, guid, foreign_count) VALUES('$BM_URL', 0, '$BM_GUID1', 1); INSERT OR REPLACE INTO moz_bookmarks(type, fk, parent, title, guid) VALUES(1, (SELECT id FROM moz_places WHERE guid='$BM_GUID1'), (SELECT id FROM moz_bookmarks WHERE guid='toolbar_____'), '$BM_TITLE', '$BM_GUID2');"
-done
-sqlite3 -echo -header -column "$TB_BOOKMARK_DB" "SELECT * FROM moz_bookmarks; SELECT * FROM moz_places;"
+#for BM_INFO (${(f)BOOKMARKS})
+#do
+#    BM_URL=$(echo $BM_INFO | cut -d',' -f1)
+#    BM_TITLE=$(echo $BM_INFO | cut -d',' -f2)
+#    BM_GUID1=$(echo $BM_INFO | cut -d',' -f3)
+#    BM_GUID2=$(echo $BM_INFO | cut -d',' -f4)
+#    sqlite3 -echo -header -column "$TB_BOOKMARK_DB" "INSERT OR REPLACE INTO moz_places(url, hidden, guid, foreign_count) VALUES('$BM_URL', 0, '$BM_GUID1', 1); INSERT OR REPLACE INTO moz_bookmarks(type, fk, parent, title, guid) VALUES(1, (SELECT id FROM moz_places WHERE guid='$BM_GUID1'), (SELECT id FROM moz_bookmarks WHERE guid='toolbar_____'), '$BM_TITLE', '$BM_GUID2');"
+#done
+#sqlite3 -echo -header -column "$TB_BOOKMARK_DB" "SELECT * FROM moz_bookmarks; SELECT * FROM moz_places;"
 
 # Force installation of uBlock origin
-wget https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/addon-607454-latest.xpi -O "$TB_CONFIG_DIR/extensions/uBlock0@raymondhill.net.xpi"
+# wget https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/addon-607454-latest.xpi -O "$TB_CONFIG_DIR/extensions/uBlock0@raymondhill.net.xpi"
 
 # Open IINA at least once in the background to let it register its Safari extension.
 # Then close it after a while to not block script execution.
@@ -241,7 +241,7 @@ poetry completions zsh > ~/.zfunc/_poetry
 _MPM_COMPLETE=source_zsh mpm > ~/.zfunc/_mpm
 
 # Force Neovim plugin upgrades
-nvim -c "try | call dein#update() | finally | qall! | endtry"
+# nvim -c "try | call dein#update() | finally | qall! | endtry"
 
 # Install zinit
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/zdharma/zinit/master/doc/install.sh)"
