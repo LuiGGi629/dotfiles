@@ -168,11 +168,11 @@ export HOMEBREW_NO_ANALYTICS=1
 # Neovim
 ###############################################################################
 # Make Neovim the default editor
-export EDITOR="nvim"
+# export EDITOR="nvim"
 
-alias vim='nvim'
-alias vi='nvim'
-alias v="nvim"
+# alias vim='nvim'
+# alias vi='nvim'
+# alias v="nvim"
 
 
 ###############################################################################
