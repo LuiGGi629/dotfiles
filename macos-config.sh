@@ -46,16 +46,16 @@ HOST_UUID=$(ioreg -d2 -c IOPlatformExpertDevice | awk -F\" '/IOPlatformUUID/{pri
 sudo -v
 
 # List existing entries for debug.
-sudo tccutil --list
+# sudo tccutil --list
 
 # Add Terminal as a developer tool. Any app referenced in the hidden Developer
 # Tools category will be able to bypass GateKeeper.
 # Source: an Apple Xcode engineer at:
 #   https://news.ycombinator.com/item?id=23278629
 #   https://news.ycombinator.com/item?id=23273867
-sudo spctl developer-mode enable-terminal
-sudo tccutil --service "kTCCServiceDeveloperTool" --insert "com.apple.Terminal"
-sudo tccutil --service "kTCCServiceDeveloperTool" --enable "com.apple.Terminal"
+# sudo spctl developer-mode enable-terminal
+# sudo tccutil --service "kTCCServiceDeveloperTool" --insert "com.apple.Terminal"
+# sudo tccutil --service "kTCCServiceDeveloperTool" --enable "com.apple.Terminal"
 
 # Since 10.15, BSD-userland processes now also deal with sandboxing, since the
 # BSD syscall ABI is now reimplemented in terms of macOS security capabilities.
@@ -72,26 +72,26 @@ sudo tccutil --service "kTCCServiceDeveloperTool" --enable "com.apple.Terminal"
 #   cat: /Users/kde/Library/Preferences/com.apple.AddressBook.plist: Operation not permitted
 
 # Grant Full Disk Access permission
-for app (
-    "com.apple.Terminal"
-    "/Applications/BlockBlock.app"
-    "/Applications/KnockKnock.app"
-); do
-    sudo tccutil --service "kTCCServiceSystemPolicyAllFiles" --insert "${app}"
-    sudo tccutil --service "kTCCServiceSystemPolicyAllFiles" --enable "${app}"
-done
+# for app (
+#    "com.apple.Terminal"
+#    "/Applications/BlockBlock.app"
+#    "/Applications/KnockKnock.app"
+# ); do
+#    sudo tccutil --service "kTCCServiceSystemPolicyAllFiles" --insert "${app}"
+#    sudo tccutil --service "kTCCServiceSystemPolicyAllFiles" --enable "${app}"
+# done
 
 # Grant Accessibility permission
-for app (
-    "/Applications/Amethyst.app"
-    "/Library/Application Support/Logitech.localized/Logitech Options.localized/Logi Options Daemon.app"
-    "/Applications/Logi Options.app"
-    "/Applications/MonitorControl.app"
-    "/Applications/SwiftBar.app"
-); do
-    sudo tccutil --insert "${app}"
-    sudo tccutil --enable "${app}"
-done
+# for app (
+#    "/Applications/Amethyst.app"
+#    "/Library/Application Support/Logitech.localized/Logitech Options.localized/Logi Options Daemon.app"
+#    "/Applications/Logi Options.app"
+#    "/Applications/MonitorControl.app"
+#    "/Applications/SwiftBar.app"
+# ); do
+#    sudo tccutil --insert "${app}"
+#    sudo tccutil --enable "${app}"
+# done
 
 
 ###############################################################################
@@ -99,16 +99,16 @@ done
 ###############################################################################
 
 # Transform '  |   "model" = <"MacBookAir8,1">' to 'MBA'
-COMPUTER_MODEL_SHORTHAND=$(ioreg -c IOPlatformExpertDevice -d 2 -r | grep "\"model\" =" | python -c "print(''.join([c for c in input() if c.isupper()]))")
-COMPUTER_NAME="$(whoami)-${COMPUTER_MODEL_SHORTHAND}"
+# COMPUTER_MODEL_SHORTHAND=$(ioreg -c IOPlatformExpertDevice -d 2 -r | grep "\"model\" =" | python -c "print(''.join([c for c in input() if c.isupper()]))")
+# COMPUTER_NAME="$(whoami)-${COMPUTER_MODEL_SHORTHAND}"
 # Set computer name (as done via System Preferences → Sharing)
-sudo scutil --set ComputerName "${COMPUTER_NAME}"
-sudo scutil --set HostName "${COMPUTER_NAME}"
-sudo scutil --set LocalHostName "${COMPUTER_NAME}"
-sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string "${COMPUTER_NAME}"
+# sudo scutil --set ComputerName "${COMPUTER_NAME}"
+# sudo scutil --set HostName "${COMPUTER_NAME}"
+# sudo scutil --set LocalHostName "${COMPUTER_NAME}"
+# sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string "${COMPUTER_NAME}"
 
 # Remove default content
-# sudo rm -rf "${HOME}/Public/Drop Box"
+sudo rm -rf "${HOME}/Public/Drop Box"
 rm -rf "${HOME}/Public/.com.apple.timemachine.supported"
 
 # Disable the sound effects on boot
@@ -218,9 +218,9 @@ defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
 
 # Set a custom wallpaper image. `DefaultDesktop.jpg` is already a symlink, and
 # all wallpapers are in `/Library/Desktop Pictures/`. The default is `Wave.jpg`.
-#rm -rf "${HOME}/Library/Application Support/Dock/desktoppicture.db"
-#sudo rm -rf /System/Library/CoreServices/DefaultDesktop.jpg
-#sudo ln -s /path/to/your/image /System/Library/CoreServices/DefaultDesktop.jpg
+# rm -rf "${HOME}/Library/Application Support/Dock/desktoppicture.db"
+# sudo rm -rf /System/Library/CoreServices/DefaultDesktop.jpg
+# sudo ln -s /path/to/your/image /System/Library/CoreServices/DefaultDesktop.jpg
 
 # Play user interface sound effects
 defaults write -globalDomain "com.apple.sound.uiaudio.enabled" -int 0
@@ -234,7 +234,7 @@ defaults write -globalDomain "com.apple.sound.beep.feedback" -int 0
 ##############################################################################
 
 # Disable transparency in the menu bar and elsewhere on Yosemite
-defaults write com.apple.universalaccess reduceTransparency -bool true
+# defaults write com.apple.universalaccess reduceTransparency -bool true
 
 # Enable input menu in menu bar.
 defaults write com.apple.TextInputMenu visible -bool true
@@ -253,7 +253,7 @@ defaults write com.apple.systemuiserver menuExtras -array \
         "/System/Library/CoreServices/Menu Extras/Clock.menu"
 
 # Autohide dock and menubar.
-#defaults write NSGlobalDomain _HIHideMenuBar -bool true
+defaults write NSGlobalDomain _HIHideMenuBar -bool true
 
 
 ##############################################################################
@@ -264,24 +264,24 @@ defaults write com.apple.systemuiserver menuExtras -array \
 
 # Enable Firewall. Possible values: 0 = off, 1 = on for specific sevices, 2 =
 # on for essential services.
-sudo defaults write /Library/Preferences/com.apple.alf globalstate -int 1
+# sudo defaults write /Library/Preferences/com.apple.alf globalstate -int 1
 
 # Enable stealth mode
 # https://support.apple.com/kb/PH18642
-sudo defaults write /Library/Preferences/com.apple.alf stealthenabled -bool true
+# sudo defaults write /Library/Preferences/com.apple.alf stealthenabled -bool true
 
 # Enable firewall logging
-sudo defaults write /Library/Preferences/com.apple.alf loggingenabled -bool true
+# sudo defaults write /Library/Preferences/com.apple.alf loggingenabled -bool true
 
 # Do not automatically allow signed software to receive incoming connections
-sudo defaults write /Library/Preferences/com.apple.alf allowsignedenabled -bool false
+# sudo defaults write /Library/Preferences/com.apple.alf allowsignedenabled -bool false
 
 # Reload the firewall
 # (uncomment if above is not commented out)
-launchctl unload /System/Library/LaunchAgents/com.apple.alf.useragent.plist
-sudo launchctl unload /System/Library/LaunchDaemons/com.apple.alf.agent.plist
-sudo launchctl load /System/Library/LaunchDaemons/com.apple.alf.agent.plist
-launchctl load /System/Library/LaunchAgents/com.apple.alf.useragent.plist
+# launchctl unload /System/Library/LaunchAgents/com.apple.alf.useragent.plist
+# sudo launchctl unload /System/Library/LaunchDaemons/com.apple.alf.agent.plist
+# sudo launchctl load /System/Library/LaunchDaemons/com.apple.alf.agent.plist
+# launchctl load /System/Library/LaunchAgents/com.apple.alf.useragent.plist
 
 # Apply configuration on all network interfaces.
 #   $ networksetup -listallnetworkservices
@@ -292,19 +292,19 @@ launchctl load /System/Library/LaunchAgents/com.apple.alf.useragent.plist
 #   iPhone USB
 #   Bluetooth PAN
 #   Thunderbolt Bridge
-net_interfaces=$(networksetup -listallnetworkservices | awk '{gsub(/^*/,""); if(NR>1)print}')
-for net_service (${(f)net_interfaces}); do
+# net_interfaces=$(networksetup -listallnetworkservices | awk '{gsub(/^*/,""); if(NR>1)print}')
+# for net_service (${(f)net_interfaces}); do
     # Use Cloudflare's fast and privacy friendly DNS.
-    networksetup -setdnsservers "${net_service}" 1.1.1.1 1.0.0.1 2606:4700:4700::1111 2606:4700:4700::1001
+#     networksetup -setdnsservers "${net_service}" 1.1.1.1 1.0.0.1 2606:4700:4700::1111 2606:4700:4700::1001
     # Clear out all search domains.
-    networksetup -setsearchdomains "${net_service}" "Empty"
-done
+#     networksetup -setsearchdomains "${net_service}" "Empty"
+# done
 
 # Setup 10G NIC
-networksetup -setMTU "Thunderbolt Ethernet Slot 1, Port 2" 9000
+# networksetup -setMTU "Thunderbolt Ethernet Slot 1, Port 2" 9000
 
 # Disable IR remote control
-sudo defaults write /Library/Preferences/com.apple.driver.AppleIRController DeviceEnabled -bool false
+# sudo defaults write /Library/Preferences/com.apple.driver.AppleIRController DeviceEnabled -bool false
 
 # Turn Bluetooth off completely
 sudo defaults write /Library/Preferences/com.apple.Bluetooth ControllerPowerState -int 0
@@ -313,12 +313,12 @@ sudo defaults write /Library/Preferences/com.apple.Bluetooth ControllerPowerStat
 sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.captive.control Active -bool false
 
 # Disable remote apple events
-sudo systemsetup -setremoteappleevents off
+# sudo systemsetup -setremoteappleevents off
 
 # Disable remote login
 # TODO: is waiting for user input. Make it unattended.
 # Remote login is already Off by default. We can ignore it for now.
-#sudo systemsetup -setremotelogin off
+# sudo systemsetup -setremotelogin off
 
 # Disable wake-on modem
 # XXX setwakeonmodem returns "Wake On Modem: Not supported on this machine." for now.
@@ -350,17 +350,17 @@ security set-keychain-settings -t 21600 -l "${HOME}/Library/Keychains/login.keyc
 
 # Destroy FileVault key when going into standby mode, forcing a re-auth.
 # Source: https://web.archive.org/web/20160114141929/https://training.apple.com/pdf/WP_FileVault2.pdf
-sudo pmset destroyfvkeyonstandby 1
+# sudo pmset destroyfvkeyonstandby 1
 
 # Enable FileVault (if not already enabled)
 # This requires a user password, and outputs a recovery key that should be
 # copied to a secure location
-if [[ $(sudo fdesetup status | head -1) == "FileVault is Off." ]]; then
-  sudo fdesetup enable -user `whoami`
-fi
+# if [[ $(sudo fdesetup status | head -1) == "FileVault is Off." ]]; then
+#  sudo fdesetup enable -user `whoami`
+# fi
 
 # Disable automatic login when FileVault is enabled
-#sudo defaults write /Library/Preferences/com.apple.loginwindow DisableFDEAutoLogin -bool true
+# sudo defaults write /Library/Preferences/com.apple.loginwindow DisableFDEAutoLogin -bool true
 
 # Enable secure virtual memory
 sudo defaults write /Library/Preferences/com.apple.virtualMemory UseEncryptedSwap -bool true
@@ -385,9 +385,9 @@ sudo perl -p -i -e 's/format=bsd/format=bsd mode=0640 rotate=utc compress file_m
 sudo perl -p -i -e 's/\/var\/log\/wtmp.*$/\/var\/log\/wtmp   \t\t\t640\ \ 31\    *\t\@hh24\ \J/g' "/etc/newsyslog.conf"
 
 # CIS 3.3 audit_control flags setting.
-sudo perl -p -i -e 's|flags:lo,aa|flags:lo,aa,ad,fd,fm,-all,^-fa,^-fc,^-cl|g' /private/etc/security/audit_control
-sudo perl -p -i -e 's|filesz:2M|filesz:10M|g' /private/etc/security/audit_control
-sudo perl -p -i -e 's|expire-after:10M|expire-after: 30d |g' /private/etc/security/audit_control
+# sudo perl -p -i -e 's|flags:lo,aa|flags:lo,aa,ad,fd,fm,-all,^-fa,^-fc,^-cl|g' /private/etc/security/audit_control
+# sudo perl -p -i -e 's|filesz:2M|filesz:10M|g' /private/etc/security/audit_control
+# sudo perl -p -i -e 's|expire-after:10M|expire-after: 30d |g' /private/etc/security/audit_control
 
 
 ##############################################################################
@@ -535,21 +535,21 @@ defaults write NSGlobalDomain InitialKeyRepeat -int 10
 # Set language and text formats
 # Note: if you’re in the US, replace `EUR` with `USD`, `Centimeters` with
 # `Inches`, `en_GB` with `en_US`, and `true` with `false`.
-defaults write NSGlobalDomain AppleLanguages -array "en" "fr"
-defaults write NSGlobalDomain AppleLocale -string "en_GB@currency=EUR"
+# defaults write NSGlobalDomain AppleLanguages -array "en" "fr"
+# defaults write NSGlobalDomain AppleLocale -string "en_GB@currency=EUR"
 defaults write NSGlobalDomain AppleMeasurementUnits -string "Centimeters"
 defaults write NSGlobalDomain AppleMetricUnits -bool true
 
 # Show language menu in the top right corner of the boot screen
-sudo defaults write /Library/Preferences/com.apple.loginwindow showInputMenu -bool true
+# sudo defaults write /Library/Preferences/com.apple.loginwindow showInputMenu -bool true
 
 # Set the timezone; see `sudo systemsetup -listtimezones` for other values
-sudo systemsetup -settimezone "Europe/Paris" > /dev/null
-sudo systemsetup -setnetworktimeserver "time.euro.apple.com"
-sudo systemsetup -setusingnetworktime on
+# sudo systemsetup -settimezone "Europe/Paris" > /dev/null
+# sudo systemsetup -setnetworktimeserver "time.euro.apple.com"
+# sudo systemsetup -setusingnetworktime on
 
 # Do not set timezone automatticaly depending on location.
-sudo defaults write /Library/Preferences/com.apple.timezone.auto.plist Active -bool false
+# sudo defaults write /Library/Preferences/com.apple.timezone.auto.plist Active -bool false
 
 # Enable 24 hour time.
 defaults write com.apple.menuextra.clock DateFormat -string "EEE d MMM HH:mm"
@@ -579,23 +579,23 @@ sudo pmset -c sleep 0
 
 # Set standby delay to default 1 hour
 # See: https://www.ewal.net/2012/09/09/slow-wake-for-macbook-pro-retina/
-sudo pmset -a standbydelay 3600
+# sudo pmset -a standbydelay 3600
 
 # Never go into computer sleep mode
-#sudo systemsetup -setcomputersleep Off > /dev/null
+# sudo systemsetup -setcomputersleep Off > /dev/null
 
 # Hibernation mode
 # 0: Disable hibernation (speeds up entering sleep mode)
 # 3: Copy RAM to disk so the system state can still be restored in case of a
 #    power failure.
-sudo pmset -a hibernatemode 3
+# sudo pmset -a hibernatemode 3
 
 # Remove the sleep image file to save disk space
-#sudo rm /private/var/vm/sleepimage
+# sudo rm /private/var/vm/sleepimage
 # Create a zero-byte file instead…
-#sudo touch /private/var/vm/sleepimage
+# sudo touch /private/var/vm/sleepimage
 # …and make sure it can’t be rewritten
-#sudo chflags uchg /private/var/vm/sleepimage
+# sudo chflags uchg /private/var/vm/sleepimage
 
 
 ###############################################################################
@@ -625,7 +625,7 @@ sudo defaults write /Library/Preferences/com.apple.windowserver DisplayResolutio
 ###############################################################################
 
 # Start night shift from sunset to sunrise
-nightlight schedule start
+# nightlight schedule start
 
 
 ###############################################################################
@@ -648,11 +648,11 @@ defaults write me.guillaumeb.MonitorControl allScreens -bool false
 # defaults -currentHost write com.apple.screensaver idleTime -int 600
 
 # Require password immediately after sleep or screen saver begins
-defaults write com.apple.screensaver askForPassword -bool true
-defaults write com.apple.screensaver askForPasswordDelay -int 0
+# defaults write com.apple.screensaver askForPassword -bool true
+# defaults write com.apple.screensaver askForPasswordDelay -int 0
 
 # Screen Saver: Aerial
-defaults -currentHost write com.apple.screensaver moduleDict -dict moduleName -string "Aerial" path -string "${HOME}/Library/Screen Savers/Aerial.saver" type -int 0
+# defaults -currentHost write com.apple.screensaver moduleDict -dict moduleName -string "Aerial" path -string "${HOME}/Library/Screen Savers/Aerial.saver" type -int 0
 
 
 ###############################################################################
@@ -660,47 +660,47 @@ defaults -currentHost write com.apple.screensaver moduleDict -dict moduleName -s
 ###############################################################################
 
 # Disable setup walkthrough
-defaults write ~/Library/Containers/com.apple.ScreenSaver.Engine.legacyScreenSaver/Data/Library/Preferences/ByHost/com.JohnCoates.Aerial.plist \
+# defaults write ~/Library/Containers/com.apple.ScreenSaver.Engine.legacyScreenSaver/Data/Library/Preferences/ByHost/com.JohnCoates.Aerial.plist \
     firstTimeSetup -int 1
 
 # Disable fade in/out
-defaults write ~/Library/Containers/com.apple.ScreenSaver.Engine.legacyScreenSaver/Data/Library/Preferences/ByHost/com.JohnCoates.Aerial.plist \
+# defaults write ~/Library/Containers/com.apple.ScreenSaver.Engine.legacyScreenSaver/Data/Library/Preferences/ByHost/com.JohnCoates.Aerial.plist \
     fadeMode -int 0
 
 # Video format: 4K HEVC
-defaults write ~/Library/Containers/com.apple.ScreenSaver.Engine.legacyScreenSaver/Data/Library/Preferences/ByHost/com.JohnCoates.Aerial.plist \
+# defaults write ~/Library/Containers/com.apple.ScreenSaver.Engine.legacyScreenSaver/Data/Library/Preferences/ByHost/com.JohnCoates.Aerial.plist \
     intVideoFormat -int 3
 
 # Disable if battery < 20%
-defaults write ~/Library/Containers/com.apple.ScreenSaver.Engine.legacyScreenSaver/Data/Library/Preferences/ByHost/com.JohnCoates.Aerial.plist \
+# defaults write ~/Library/Containers/com.apple.ScreenSaver.Engine.legacyScreenSaver/Data/Library/Preferences/ByHost/com.JohnCoates.Aerial.plist \
     intOnBatteryMode -int 2
 
 # Viewing mode: Cloned
-defaults write ~/Library/Containers/com.apple.ScreenSaver.Engine.legacyScreenSaver/Data/Library/Preferences/ByHost/com.JohnCoates.Aerial.plist \
+# defaults write ~/Library/Containers/com.apple.ScreenSaver.Engine.legacyScreenSaver/Data/Library/Preferences/ByHost/com.JohnCoates.Aerial.plist \
     newViewingMode -int 1
 
 # Aligns scenes with system dark mode
-defaults write ~/Library/Containers/com.apple.ScreenSaver.Engine.legacyScreenSaver/Data/Library/Preferences/ByHost/com.JohnCoates.Aerial.plist \
+# defaults write ~/Library/Containers/com.apple.ScreenSaver.Engine.legacyScreenSaver/Data/Library/Preferences/ByHost/com.JohnCoates.Aerial.plist \
     timeMode -int 3
 
 # Enable dynamic rotation of cache
-defaults write ~/Library/Containers/com.apple.ScreenSaver.Engine.legacyScreenSaver/Data/Library/Preferences/ByHost/com.JohnCoates.Aerial.plist \
+# defaults write ~/Library/Containers/com.apple.ScreenSaver.Engine.legacyScreenSaver/Data/Library/Preferences/ByHost/com.JohnCoates.Aerial.plist \
     enableManagement -int 1
 
 # Rotate cache every month
-defaults write ~/Library/Containers/com.apple.ScreenSaver.Engine.legacyScreenSaver/Data/Library/Preferences/ByHost/com.JohnCoates.Aerial.plist \
+# defaults write ~/Library/Containers/com.apple.ScreenSaver.Engine.legacyScreenSaver/Data/Library/Preferences/ByHost/com.JohnCoates.Aerial.plist \
     intCachePeriodicity -int 2
 
 # Limit cache to 20 Gb
-defaults write ~/Library/Containers/com.apple.ScreenSaver.Engine.legacyScreenSaver/Data/Library/Preferences/ByHost/com.JohnCoates.Aerial.plist \
+# defaults write ~/Library/Containers/com.apple.ScreenSaver.Engine.legacyScreenSaver/Data/Library/Preferences/ByHost/com.JohnCoates.Aerial.plist \
     cacheLimit -int 20
 
 # Show download progress on screen saver
-defaults write ~/Library/Containers/com.apple.ScreenSaver.Engine.legacyScreenSaver/Data/Library/Preferences/ByHost/com.JohnCoates.Aerial.plist \
+# defaults write ~/Library/Containers/com.apple.ScreenSaver.Engine.legacyScreenSaver/Data/Library/Preferences/ByHost/com.JohnCoates.Aerial.plist \
     showBackgroundDownloads -int 1
 
 # Deactivate debug mode and logs
-defaults write ~/Library/Containers/com.apple.ScreenSaver.Engine.legacyScreenSaver/Data/Library/Preferences/ByHost/com.JohnCoates.Aerial.plist \
+# defaults write ~/Library/Containers/com.apple.ScreenSaver.Engine.legacyScreenSaver/Data/Library/Preferences/ByHost/com.JohnCoates.Aerial.plist \
     debugMode -bool false
 
 # Aerial layer widget configuration is a serialized JSON string. This hack will
@@ -708,43 +708,43 @@ defaults write ~/Library/Containers/com.apple.ScreenSaver.Engine.legacyScreenSav
 # present. See: https://github.com/JohnCoates/Aerial/issues/976
 
 # Only shows clock on main diplays, without seconds or am/pm
-defaults write ~/Library/Containers/com.apple.ScreenSaver.Engine.legacyScreenSaver/Data/Library/Preferences/ByHost/com.JohnCoates.Aerial.plist \
-    LayerClock -string \
-    '{
-        "isEnabled": true,
-        "displays": 1,
-        "showSeconds": false,
-        "hideAmPm": true,
-        "clockFormat" : 1,
-        "corner" : 3,
-        "fontName" : "Helvetica Neue Medium",
-        "fontSize" : 50
-    }'
+# defaults write ~/Library/Containers/com.apple.ScreenSaver.Engine.legacyScreenSaver/Data/Library/Preferences/ByHost/com.JohnCoates.Aerial.plist \
+#    LayerClock -string \
+#    '{
+#        "isEnabled": true,
+#        "displays": 1,
+#        "showSeconds": false,
+#        "hideAmPm": true,
+#        "clockFormat" : 1,
+#        "corner" : 3,
+#        "fontName" : "Helvetica Neue Medium",
+#        "fontSize" : 50
+#    }'
 
 # Only shows location for 10 seconds on main display only
-defaults write ~/Library/Containers/com.apple.ScreenSaver.Engine.legacyScreenSaver/Data/Library/Preferences/ByHost/com.JohnCoates.Aerial.plist \
-    LayerLocation -string \
-    '{
-        "isEnabled": true,
-        "displays": 1,
-        "time": 1,
-        "corner" : 7,
-        "fontName" : "Helvetica Neue Medium",
-        "fontSize" : 28
-    }'
+# defaults write ~/Library/Containers/com.apple.ScreenSaver.Engine.legacyScreenSaver/Data/Library/Preferences/ByHost/com.JohnCoates.Aerial.plist \
+#    LayerLocation -string \
+#    '{
+#        "isEnabled": true,
+#        "displays": 1,
+#        "time": 1,
+#        "corner" : 7,
+#        "fontName" : "Helvetica Neue Medium",
+#        "fontSize" : 28
+#     }'
 
 # Shows date on main display only
-defaults write ~/Library/Containers/com.apple.ScreenSaver.Engine.legacyScreenSaver/Data/Library/Preferences/ByHost/com.JohnCoates.Aerial.plist \
-    LayerDate -string \
-    '{
-        "isEnabled": true,
-        "displays": 1,
-        "format": 0,
-        "withYear": true,
-        "corner": 3,
-        "fontName": "Helvetica Neue Thin",
-        "fontSize": 25
-    }'
+# defaults write ~/Library/Containers/com.apple.ScreenSaver.Engine.legacyScreenSaver/Data/Library/Preferences/ByHost/com.JohnCoates.Aerial.plist \
+#    LayerDate -string \
+#    '{
+#        "isEnabled": true,
+#        "displays": 1,
+#        "format": 0,
+#        "withYear": true,
+#        "corner": 3,
+#        "fontName": "Helvetica Neue Thin",
+#        "fontSize": 25
+#    }'
 
 
 ###############################################################################
@@ -876,10 +876,10 @@ sudo command find / -name ".DS_Store" -print -delete
 defaults write com.apple.finder WarnOnEmptyTrash -bool false
 
 # Enable AirDrop over Ethernet and on unsupported Macs running Lion
-defaults write com.apple.NetworkBrowser BrowseAllInterfaces -bool true
+# defaults write com.apple.NetworkBrowser BrowseAllInterfaces -bool true
 
 # Enable the MacBook Air SuperDrive on any Mac
-#sudo nvram boot-args="mbasd=1"
+# sudo nvram boot-args="mbasd=1"
 
 # Show the ~/Library folder
 chflags nohidden "${HOME}/Library" && xattr -d com.apple.FinderInfo "${HOME}/Library" 2> /dev/null
@@ -908,51 +908,51 @@ defaults write com.apple.finder CopyProgressWindowLocation -string "{2160, 23}"
 
 # To hunt IDs, see: http://stackoverflow.com/a/25622557
 
-_duti='com.apple.DiskImageMounter com.apple.disk-image
-com.apple.DiskImageMounter public.disk-image
-com.apple.DiskImageMounter public.iso-image
-com.apple.Terminal com.apple.terminal.shell-script
-com.apple.installer com.apple.installer-package-archive
-com.apple.Safari http
-com.colliderli.iina com.apple.coreaudio-format
-com.colliderli.iina com.apple.m4a-audio
-com.colliderli.iina com.apple.m4v-video
-com.colliderli.iina com.apple.mpeg-4-ringtone
-com.colliderli.iina com.apple.protected-mpeg-4-audio
-com.colliderli.iina com.apple.protected-mpeg-4-video
-com.colliderli.iina com.apple.quicktime-movie
-com.colliderli.iina com.audible.aa-audio
-com.colliderli.iina com.microsoft.waveform-audio
-com.colliderli.iina com.microsoft.windows-media-wmv
-com.colliderli.iina public.ac3-audio
-com.colliderli.iina public.aifc-audio
-com.colliderli.iina public.aiff-audio
-com.colliderli.iina public.audio
-com.colliderli.iina public.audiovisual-content
-com.colliderli.iina public.avi
-com.colliderli.iina public.movie
-com.colliderli.iina public.mp3
-com.colliderli.iina public.mpeg
-com.colliderli.iina public.mpeg-2-video
-com.colliderli.iina public.mpeg-4
-com.colliderli.iina public.mpeg-4-audio'
+# _duti='com.apple.DiskImageMounter com.apple.disk-image
+# com.apple.DiskImageMounter public.disk-image
+# com.apple.DiskImageMounter public.iso-image
+# com.apple.Terminal com.apple.terminal.shell-script
+# com.apple.installer com.apple.installer-package-archive
+# com.apple.Safari http
+# com.colliderli.iina com.apple.coreaudio-format
+# com.colliderli.iina com.apple.m4a-audio
+# com.colliderli.iina com.apple.m4v-video
+# com.colliderli.iina com.apple.mpeg-4-ringtone
+# com.colliderli.iina com.apple.protected-mpeg-4-audio
+# com.colliderli.iina com.apple.protected-mpeg-4-video
+# com.colliderli.iina com.apple.quicktime-movie
+# com.colliderli.iina com.audible.aa-audio
+# com.colliderli.iina com.microsoft.waveform-audio
+# com.colliderli.iina com.microsoft.windows-media-wmv
+# com.colliderli.iina public.ac3-audio
+# com.colliderli.iina public.aifc-audio
+# com.colliderli.iina public.aiff-audio
+# com.colliderli.iina public.audio
+# com.colliderli.iina public.audiovisual-content
+# com.colliderli.iina public.avi
+# com.colliderli.iina public.movie
+# com.colliderli.iina public.mp3
+# com.colliderli.iina public.mpeg
+# com.colliderli.iina public.mpeg-2-video
+# com.colliderli.iina public.mpeg-4
+# com.colliderli.iina public.mpeg-4-audio'
 
-if test -x "/usr/local/bin/duti"; then
-    test -f "${HOME}/Library/Preferences/org.duti.plist" && \
-        rm "${HOME}/Library/Preferences/org.duti.plist"
-
-    printf "%s\n" "${_duti}" | \
-    while IFS="$(printf ' ')" read id uti; do
-        defaults write org.duti DUTISettings -array-add \
-            "{
-                DUTIBundleIdentifier = '$id';
-                DUTIUniformTypeIdentifier = '$uti';
-                DUTIRole = 'all';
-            }"
-    done
-
-    duti "${HOME}/Library/Preferences/org.duti.plist"
-fi
+# if test -x "/usr/local/bin/duti"; then
+#     test -f "${HOME}/Library/Preferences/org.duti.plist" && \
+#         rm "${HOME}/Library/Preferences/org.duti.plist"
+# 
+#     printf "%s\n" "${_duti}" | \
+#     while IFS="$(printf ' ')" read id uti; do
+#         defaults write org.duti DUTISettings -array-add \
+#             "{
+#                 DUTIBundleIdentifier = '$id';
+#                 DUTIUniformTypeIdentifier = '$uti';
+#                 DUTIRole = 'all';
+#             }"
+#     done
+# 
+#     duti "${HOME}/Library/Preferences/org.duti.plist"
+# fi
 
 
 ###############################################################################
@@ -1068,8 +1068,8 @@ command find "${HOME}/Library/Application Support/Dock" -maxdepth 1 -name "*-*.d
 # 11: Launchpad
 # 12: Notification Center
 # Top left screen corner → Start screen saver
-defaults write com.apple.dock wvous-tl-corner -int 5
-defaults write com.apple.dock wvous-tl-modifier -int 0
+# defaults write com.apple.dock wvous-tl-corner -int 5
+# defaults write com.apple.dock wvous-tl-modifier -int 0
 
 # Remove apps I don't use from the dock.
 for shortcut_label (
@@ -1446,7 +1446,7 @@ sudo mdutil -E / > /dev/null
 ###############################################################################
 
 # Text selection in Quick Look
-defaults write com.apple.finder QLEnableTextSelection -bool true
+# defaults write com.apple.finder QLEnableTextSelection -bool true
 
 # Fix for the ancient UTF-8 bug in QuickLook (https://mths.be/bbo)
 # Commented out, as this is known to cause problems in various Adobe apps :(
@@ -1456,10 +1456,10 @@ defaults write com.apple.finder QLEnableTextSelection -bool true
 ### QLColorCode
 
 # Set font
-defaults write org.n8gray.QLColorCode font Monaco
+# defaults write org.n8gray.QLColorCode font Monaco
 
 # Set font size
-defaults write org.n8gray.QLColorCode fontSizePoints 9
+# defaults write org.n8gray.QLColorCode fontSizePoints 9
 
 # Set hightlight theme
 #defaults write org.n8gray.QLColorCode hlTheme ide-xcode
@@ -1467,7 +1467,7 @@ defaults write org.n8gray.QLColorCode fontSizePoints 9
 # Add extra highlight flags
 # -l: Print line numbers in output file
 # -V: Wrap long lines without indenting function parameters and statements
-defaults write org.n8gray.QLColorCode extraHLFlags '-l -V'
+# defaults write org.n8gray.QLColorCode extraHLFlags '-l -V'
 
 
 ###############################################################################
@@ -1634,14 +1634,14 @@ defaults write com.apple.ActivityMonitor IconType -int 5
 ###############################################################################
 
 # Lets the window list work.
-defaults write com.apple.QuartzDebug QuartzDebugPrivateInterface -bool YES
+# defaults write com.apple.QuartzDebug QuartzDebugPrivateInterface -bool YES
 
 # Show useful things in the dock icon.
-defaults write com.apple.QuartzDebug QDDockShowFramemeterHistory -bool YES
-defaults write com.apple.QuartzDebug QDDockShowNumericalFps -bool YES
+# defaults write com.apple.QuartzDebug QDDockShowFramemeterHistory -bool YES
+# defaults write com.apple.QuartzDebug QDDockShowNumericalFps -bool YES
 
 # Identify which app a window belongs to (press ⌃⌥ while hovering over it).
-defaults write com.apple.QuartzDebug QDShowWindowInfoOnMouseOver -bool YES
+# defaults write com.apple.QuartzDebug QDShowWindowInfoOnMouseOver -bool YES
 
 
 ###############################################################################
@@ -1784,7 +1784,7 @@ defaults write com.apple.QuickTimePlayerX MGScreenRecordingDocumentShowMouseClic
 ###############################################################################
 
 # Enable the WebKit Developer Tools in the Mac App Store
-defaults write com.apple.appstore WebKitDeveloperExtras -bool true
+# defaults write com.apple.appstore WebKitDeveloperExtras -bool true
 
 # Enable Debug Menu in the Mac App Store
 defaults write com.apple.appstore ShowDebugMenu -bool true
@@ -1805,7 +1805,7 @@ defaults write com.apple.SoftwareUpdate AutomaticDownload -int 1
 defaults write com.apple.SoftwareUpdate CriticalUpdateInstall -int 1
 
 # Automatically download apps purchased on other Macs
-defaults write com.apple.SoftwareUpdate ConfigDataInstall -int 1
+# defaults write com.apple.SoftwareUpdate ConfigDataInstall -int 1
 
 # Turn on app auto-update
 defaults write com.apple.commerce AutoUpdate -bool true
@@ -1823,7 +1823,7 @@ defaults write com.apple.AppStore UserSetAutoPlayVideoSetting -int 1
 ###############################################################################
 
 # Prevent Photos from opening automatically when devices are plugged in
-defaults -currentHost write com.apple.ImageCapture disableHotPlug -bool true
+# defaults -currentHost write com.apple.ImageCapture disableHotPlug -bool true
 
 
 ###############################################################################
@@ -1991,155 +1991,6 @@ defaults write com.adguard.mac.adguard IgnoreEvSslCertificates -bool false
     -c "Add :showChapterPos                 integer 1" \
     -c "Add :autoSearchOnlineSub            integer 1" \
     ~/Library/Preferences/com.colliderli.iina.plist
-
-
-###############################################################################
-# Transmission.app                                                            #
-###############################################################################
-
-# Automatically size window to fit all transfers
-defaults write org.m0k.transmission AutoSize -bool true
-
-# Download & Upload Badges
-defaults write org.m0k.transmission BadgeDownloadRate -bool false
-defaults write org.m0k.transmission BadgeUploadRate -bool false
-
-# Default download location
-defaults write org.m0k.transmission DownloadLocationConstant -bool true
-defaults write org.m0k.transmission DownloadChoice -string "Constant"
-defaults write org.m0k.transmission DownloadFolder -string "${HOME}/Downloads"
-
-# Use `${HOME}/Torrents` to store incomplete downloads
-defaults write org.m0k.transmission UseIncompleteDownloadFolder -bool true
-defaults write org.m0k.transmission IncompleteDownloadFolder -string "${HOME}/Torrents"
-
-# Use `${HOME}/Downloads` to store completed downloads
-defaults write org.m0k.transmission DownloadLocationConstant -bool true
-
-# Don’t prompt for confirmation before downloading
-defaults write org.m0k.transmission DownloadAsk -bool false
-defaults write org.m0k.transmission MagnetOpenAsk -bool false
-
-# Display window when opening a torrent file
-defaults write org.m0k.transmission DownloadAskMulti -bool true
-defaults write org.m0k.transmission DownloadAskManual -bool true
-
-# Automatic Import
-defaults write org.m0k.transmission AutoImport -bool true
-defaults write org.m0k.transmission AutoImportDirectory -string "${HOME}/Downloads/"
-
-# Prompt user for removal of active transfers only when downloading
-defaults write org.m0k.transmission CheckRemoveDownloading -bool true
-
-# Do not prompt user for quit, whether there is an active transfer or download.
-defaults write org.m0k.transmission CheckQuit -bool false
-defaults write org.m0k.transmission CheckQuitDownloading -bool false
-
-# Trash original torrent files
-defaults write org.m0k.transmission DeleteOriginalTorrent -bool true
-
-# Hide the donate message
-defaults write org.m0k.transmission WarningDonate -bool false
-# Hide the legal disclaimer
-defaults write org.m0k.transmission WarningLegal -bool false
-
-# Don't play a download sound
-defaults write org.m0k.transmission PlayDownloadSound -bool false
-
-# IP block list.
-# Source: https://giuliomac.wordpress.com/2014/02/19/best-blocklist-for-transmission/
-defaults write org.m0k.transmission BlocklistNew -bool true
-defaults write org.m0k.transmission BlocklistURL -string "http://john.bitsurge.net/public/biglist.p2p.gz"
-defaults write org.m0k.transmission BlocklistAutoUpdate -bool true
-
-# Randomize port on launch
-defaults write org.m0k.transmission RandomPort -bool true
-
-# Require encryption
-defaults write org.m0k.transmission EncryptionRequire -bool true
-
-# Do not prevent computer from sleeping with active transfer
-defaults write org.m0k.transmission SleepPrevent -bool false
-
-# Status bar
-defaults write org.m0k.transmission StatusBar -bool true
-
-# Small view
-defaults write org.m0k.transmission SmallView -bool true
-
-# Pieces bar
-defaults write org.m0k.transmission PiecesBar -bool false
-
-# Pieces bar
-defaults write org.m0k.transmission FilterBar -bool true
-
-# Availability
-defaults write org.m0k.transmission DisplayProgressBarAvailable -bool false
-
-
-###############################################################################
-# MusicBrainz.app                                                             #
-###############################################################################
-
-# Auto-trigger new file analysis.
-# defaults write com.musicbrainz.Picard setting.analyze_new_files -bool true
-
-# Do not ask confirmation on quit.
-# defaults write com.musicbrainz.Picard setting.quit_confirmation -bool false
-
-# Allow auth connection to MusicBrainz website for contributions.
-# defaults write com.musicbrainz.Picard setting.server_host -string "musicbrainz.org"
-# defaults write com.musicbrainz.Picard setting.username -string "kdeldycke"
-# defaults write com.musicbrainz.Picard setting.password -string ""
-
-# Setup file renaming settings.
-# defaults write com.musicbrainz.Picard setting.rename_files -bool true
-# defaults write com.musicbrainz.Picard setting.ascii_filenames -bool false
-# defaults write com.musicbrainz.Picard setting.windows_compatibility -bool true
-# defaults write com.musicbrainz.Picard setting.move_files -bool true
-# defaults write com.musicbrainz.Picard setting.move_files_to -string "${HOME}/Music"
-# defaults write com.musicbrainz.Picard setting.delete_empty_dirs -bool true
-
-# Fallback on image release group if no front-cover found.
-# defaults write com.musicbrainz.Picard setting.ca_provider_use_caa_release_group_fallback -bool true
-
-# Allow connections to AcoustID.
-# defaults write com.musicbrainz.Picard setting.fingerprinting_system -string "acoustid"
-# defaults write com.musicbrainz.Picard setting.acoustid_apikey -string "lP2ph5Sm"
-
-
-###############################################################################
-# Fork                                                                        #
-###############################################################################
-
-# Check stable update every week.
-defaults write com.DanPristupov.Fork SUAutomaticallyUpdate -int 1
-defaults write com.DanPristupov.Fork applicationUpdateChannel -int 1
-defaults write com.DanPristupov.Fork SUScheduledCheckInterval -int 604800
-
-# Default repository source.
-defaults write com.DanPristupov.Fork defaultSourceFolder -string "~"
-
-# Set font.
-defaults write com.DanPristupov.Fork diffFontName -string "SauceCodeProNerdFontComplete-Regular"
-defaults write com.DanPristupov.Fork diffFontSize -int 11
-
-# Disable telemetry.
-defaults write com.DanPristupov.Fork disableAnonymousUsageReports -int 1
-
-# Use latest git from brew.
-defaults write com.DanPristupov.Fork gitInstanceType -int 3
-
-
-###############################################################################
-# NetNewsWire                                                                 #
-###############################################################################
-
-# defaults write com.ranchero.NetNewsWire-Evergreen SUAutomaticallyUpdate -int 1
-# defaults write com.ranchero.NetNewsWire-Evergreen SUEnableAutomaticChecks -int 1
-# defaults write com.ranchero.NetNewsWire-Evergreen SUHasLaunchedBefore -int 1
-
-# defaults write com.ranchero.NetNewsWire-Evergreen refreshInterval -int 2
 
 
 ###############################################################################

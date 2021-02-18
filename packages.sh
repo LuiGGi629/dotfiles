@@ -16,8 +16,6 @@ dockutil
 duti
 exa
 exiftool
-ext2fuse
-ext4fuse
 faac
 faad2
 fd
@@ -46,14 +44,11 @@ lame
 legit
 mozjpeg
 neovim
-ntfs-3g
 openssh
 openssl
 optipng
 osxutils
 p7zip
-pandoc
-pdftk-java
 pinentry-mac
 pngcrush
 prettyping
@@ -63,8 +58,6 @@ rclone
 recode
 rename
 ripgrep
-rmlint
-shellcheck
 shntool
 smudge/smudge/nightlight
 spoof-mac
@@ -73,7 +66,6 @@ tccutil
 testdisk
 tldr
 tree
-unrar
 watch
 webkit2png
 wget
@@ -103,54 +95,42 @@ gimp
 homebrew/cask-fonts/font-sauce-code-pro-nerd-font
 iglance
 iina
-java
 kap
 knockknock
-libreoffice
 little-snitch
 lulu
-macdown
-melonamin/formulae/swiftbar
 monitorcontrol
-mullvadvpn
-musicbrainz-picard
-netnewswire
-osxfuse
-signal
-subsurface
-telegram-desktop
 tor-browser
-transmission
 visual-studio-code
 "
 
 # Python packages to install from PyPi.
-PYTHON_PACKAGES="
-black
-boltons
-bump2version
-check-wheel-contents
-coverage[toml]
-gmvault
-ipython-autotime
-isort
-jupyterlab
-meta-package-manager
-neovim
-pgcli
-pipdeptree[graphviz]
-poetry
-pycodestyle
-pydocstyle
-pygments
-pylint
-pytest
-pytest-cov
-pytest-randomly
-pytest-sugar
-setuptools
-twine
-"
+# PYTHON_PACKAGES="
+# black
+# boltons
+# bump2version
+# check-wheel-contents
+# coverage[toml]
+# gmvault
+# ipython-autotime
+# isort
+# jupyterlab
+# meta-package-manager
+# neovim
+# pgcli
+# pipdeptree[graphviz]
+# poetry
+# pycodestyle
+# pydocstyle
+# pygments
+# pylint
+# pytest
+# pytest-cov
+# pytest-randomly
+# pytest-sugar
+# setuptools
+#twine
+# "
 
 VSCODE_PLUGINS="
 ms-python.python

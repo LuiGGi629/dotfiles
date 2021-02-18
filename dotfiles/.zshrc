@@ -1,3 +1,10 @@
+export PATH="/usr/local/bin:$PATH"
+
+eval "$(pyenv init -)"
+
+# export LDFLAGS="-L$(brew --prefix zlib)/lib -L$(brew --prefix bzip2)/lib"
+# export CPPFLAGS="-I$(brew --prefix zlib)/include -I$(brew --prefix bzip2)/include"
+
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block, everything else may go below.
@@ -373,3 +380,6 @@ alias -s {ape,avi,flv,m4a,mkv,mov,mp3,mp4,mpeg,mpg,ogg,ogm,wav,webm}=iina
 
 # Paste a repository URL in terminal, and have it cloned.
 alias -s git="git clone"
+
+# Created by `userpath` on 2021-02-18 08:09:40
+export PATH="$PATH:/Users/wojciech.zuber/.local/bin"
